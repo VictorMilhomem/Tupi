@@ -1,0 +1,9 @@
+fn main(void) : int {
+    const x : int = 5;
+    const y : int = 6;
+    if y > x {
+        return y + x;
+    }else {
+        return y * x;
+    }
+}

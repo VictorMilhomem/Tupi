@@ -1,0 +1,7 @@
+# ninja log v6
+1	423	1731168503382565839	CMakeFiles/Compiler.dir/main.cpp.o.ddi	d440235f559123ad
+424	444	1731168503822568095	CMakeFiles/Compiler.dir/CXX.dd	b4c8af88524269ff
+424	444	1731168503822568095	/home/lilmessi/CLionProjects/Compiler/cmake-build-debug/CMakeFiles/Compiler.dir/CXXModules.json	b4c8af88524269ff
+424	444	1731168503822568095	CMakeFiles/Compiler.dir/main.cpp.o.modmap	b4c8af88524269ff
+444	4107	1731168503825901445	CMakeFiles/Compiler.dir/main.cpp.o	a12a8bb99bb53d7d
+4110	4407	1731168507495920223	Compiler	c31e3159b252862b

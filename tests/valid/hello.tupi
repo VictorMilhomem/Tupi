@@ -1,0 +1,4 @@
+fn main(void) : int {
+    echo("Hello World!")
+    return 0;
+}
