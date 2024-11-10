@@ -88,7 +88,12 @@ namespace Lexer {
             {"for", TokenKind::FOR},
         };
 
-        const std::vector<std::regex> m_patterns; // TODO: CREATE THE PATTERNS FOR THE LEXER
+        const std::vector<std::regex> m_patterns = {
+            std::regex(R"(\d+)"),  // Integer
+            std::regex(R"(\d+\.\d+)"),  // Float
+            std::regex(R"([a-zA-Z_][a-zA-Z0-9_]*)"),  // Identifier
+
+        };
         std::string m_get_token_representation(TokenKind token_kind);
         static void m_raise_error(const LexerError& error) {
             std::cerr << "Unknown Token "<< error.c <<" at Line:" <<
@@ -121,7 +126,7 @@ namespace Lexer {
         };
         ~Lexer() = default;
 
-        void tokenize();
+        std::vector<Token> tokenize();
         std::vector<Token> get_tokens() {return this->m_tokens; };
 
 
