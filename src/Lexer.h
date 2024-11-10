@@ -85,7 +85,7 @@ namespace Lexer {
             {"for", TokenKind::FOR},
         };
 
-        const std::regex m_patterns; // TODO: CREATE THE PATTERNS FOR THE LEXER
+        const std::vector<std::regex> m_patterns; // TODO: CREATE THE PATTERNS FOR THE LEXER
 
         void advanceN(const int n) {
             this->m_location.column += n;
