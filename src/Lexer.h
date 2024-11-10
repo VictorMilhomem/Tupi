@@ -104,8 +104,8 @@ namespace Lexer {
             this->m_location.line++;
         };
 
-        void m_push_token(Token token) {
-            this->m_tokens.push_back(std::move(token));
+        void m_push_token(const Token& token) {
+            this->m_tokens.push_back(token);
         };
 
         bool m_at_eof() const {
@@ -114,8 +114,8 @@ namespace Lexer {
 
 
     public:
-        Lexer(std::string source) {
-            this->m_source = std::move(source);
+        Lexer(const std::string& source) {
+            this->m_source = source;
             this->m_location = {1,0};
             this->m_had_error = false;
         };
