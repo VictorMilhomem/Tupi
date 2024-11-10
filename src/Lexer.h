@@ -1,11 +1,13 @@
 #ifndef LEXER_H
 #define LEXER_H
+#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <bits/regex.h>
+#include <regex>
 
 namespace Lexer {
+#define LEXER_ERROR (-1)
 
     enum class TokenKind {
         TEOF,
@@ -56,11 +58,12 @@ namespace Lexer {
     };
 
     struct LexerLocation {
-        int line;
-        int column;
+        size_t line;
+        size_t column;
     };
 
     struct LexerError {
+        std::string c;
         LexerLocation position;
         std::string error_message;
     };
@@ -86,21 +89,26 @@ namespace Lexer {
         };
 
         const std::vector<std::regex> m_patterns; // TODO: CREATE THE PATTERNS FOR THE LEXER
-
-        void advanceN(const int n) {
+        std::string m_get_token_representation(TokenKind token_kind);
+        static void m_raise_error(const LexerError& error) {
+            std::cerr << "Unknown Token "<< error.c <<" at Line:" <<
+                error.position.line << "\nColumn:" << error.position.column;
+            exit(LEXER_ERROR);
+        };
+        void m_advanceN(const int n) {
             this->m_location.column += n;
         };
 
-        void advance_line() {
-            this->advanceN(1);
+        void m_advance_line() {
+            this->m_advanceN(1);
             this->m_location.line++;
         };
 
-        void push_token(Token token) {
+        void m_push_token(Token token) {
             this->m_tokens.push_back(std::move(token));
         };
 
-        bool at_eof() const {
+        bool m_at_eof() const {
             return this->m_location.column >= this->m_source.size();
         }
 
@@ -111,8 +119,10 @@ namespace Lexer {
             this->m_location = {1,0};
             this->m_had_error = false;
         };
+        ~Lexer() = default;
 
-        std::vector<Token> tokenize();
+        void tokenize();
+        std::vector<Token> get_tokens() {return this->m_tokens; };
 
 
 
