@@ -23,7 +23,7 @@ namespace Lexer {
         SEMICOLON,
         COMMA,
         COLON,
-
+        ASSIGN,
         // BINARY OPERATORS
         EQUAL,
         GT,
@@ -34,10 +34,12 @@ namespace Lexer {
         // UNARY OPERATORS
         MINUS,
         PLUS,
+        DIV,
+        MULT,
         INCREMENT,
         DECREMENT,
         BITWISE,
-
+        NOT,
         // KEYWORDS
         VOID,
         RETURN,
@@ -49,7 +51,9 @@ namespace Lexer {
         IF,
         ELSE,
         ELIF,
-        FOR
+        FOR,
+        AND,
+        OR
     };
 
     struct Token {
@@ -86,17 +90,19 @@ namespace Lexer {
             {"elif", TokenKind::ELIF},
             {"else", TokenKind::ELSE},
             {"for", TokenKind::FOR},
+            {"and", TokenKind::AND},
+            {"or", TokenKind::OR},
         };
 
-        const std::vector<std::regex> m_patterns = {
-            std::regex(R"(\d+)"),  // Integer
-            std::regex(R"(\d+\.\d+)"),  // Float
-            std::regex(R"([a-zA-Z_][a-zA-Z0-9_]*)"),  // Identifier
-
+        const std::unordered_map<std::string, std::pair<std::regex, TokenKind>> m_patterns = {
+            {"int", {std::regex(R"(\d+)"), TokenKind::INTEGER}},
+            {"float", {std::regex(R"(\d+\.\d+)"), TokenKind::FLOAT}},
+            {"id", {std::regex(R"([a-zA-Z_][a-zA-Z0-9_]*)"), TokenKind::IDENTIFIER}},
         };
+
         std::string m_get_token_representation(TokenKind token_kind);
         static void m_raise_error(const LexerError& error) {
-            std::cerr << "Unknown Token "<< error.c <<" at Line:" <<
+            std::cerr << error.error_message << error.c <<" at Line:" <<
                 error.position.line << "\nColumn:" << error.position.column;
             exit(LEXER_ERROR);
         };
@@ -117,7 +123,35 @@ namespace Lexer {
             return this->m_location.column >= this->m_source.size();
         }
 
+        size_t at() const {
+            return this->m_location.column;
+        }
 
+        char m_lookahead(const int n) const {
+            return this->m_source[this->m_location.column + n];
+        }
+
+        bool m_tryMatch(const std::string& remaining_input, std::smatch& match,
+                  const std::regex& pattern, TokenKind type, std::vector<Token>& tokens)
+        {
+            if (std::regex_search(remaining_input, match, pattern) && match.position() == 0) {
+                std::string token_value = match.str();
+                if (type == TokenKind::IDENTIFIER) {
+                    auto keyword_it = m_keywords.find(token_value);
+                    if (keyword_it != m_keywords.end()) {
+                        tokens.push_back({keyword_it->second, token_value});
+                    } else {
+                        tokens.push_back({TokenKind::IDENTIFIER, token_value});
+                    }
+                } else {
+                    tokens.push_back({type, token_value});
+                }
+
+                m_advanceN(static_cast<int>(match.length()));
+                return true;
+            }
+            return false;
+        }
     public:
         Lexer(const std::string& source) {
             this->m_source = source;
