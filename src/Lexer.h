@@ -25,6 +25,7 @@ namespace Lexer {
         COMMA,
         COLON,
         ASSIGN,
+        TYPE, // int, float keywords
         // BINARY OPERATORS
         EQUAL,
         GT,
@@ -45,8 +46,6 @@ namespace Lexer {
         // KEYWORDS
         VOID,
         RETURN,
-        KINT,
-        KFLOAT,
         CONST,
         VAR,
         FN,
@@ -83,8 +82,8 @@ namespace Lexer {
         const std::unordered_map<std::string, TokenKind> m_keywords = {
             {"void", TokenKind::VOID},
             {"return", TokenKind::RETURN},
-            {"int", TokenKind::KINT},
-            {"float", TokenKind::KFLOAT},
+            {"int", TokenKind::TYPE},
+            {"float", TokenKind::TYPE},
             {"const", TokenKind::CONST},
             {"var", TokenKind::VAR},
             {"fn", TokenKind::FN},
