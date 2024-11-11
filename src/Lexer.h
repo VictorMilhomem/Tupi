@@ -12,6 +12,7 @@ namespace Lexer {
     enum class TokenKind {
         TEOF,
         IDENTIFIER,
+        STRING,
         INTEGER,
         FLOAT,
         LPAREN,
@@ -30,12 +31,13 @@ namespace Lexer {
         GTEQUAL,
         LT,
         LTEQUAL,
+        DIV,
+        MULT,
 
         // UNARY OPERATORS
         MINUS,
         PLUS,
-        DIV,
-        MULT,
+
         INCREMENT,
         DECREMENT,
         BITWISE,
@@ -98,9 +100,11 @@ namespace Lexer {
             {"int", {std::regex(R"(\d+)"), TokenKind::INTEGER}},
             {"float", {std::regex(R"(\d+\.\d+)"), TokenKind::FLOAT}},
             {"id", {std::regex(R"([a-zA-Z_][a-zA-Z0-9_]*)"), TokenKind::IDENTIFIER}},
+            {"string", {std::regex(R"("(\\.|[^"\\])*")"), TokenKind::STRING}}
         };
 
-        std::string m_get_token_representation(TokenKind token_kind);
+        static void m_debug_print_tokens(const Token& token);
+
         static void m_raise_error(const LexerError& error) {
             std::cerr << error.error_message << error.c <<" at Line:" <<
                 error.position.line << "\nColumn:" << error.position.column;
@@ -160,6 +164,7 @@ namespace Lexer {
         };
         ~Lexer() = default;
 
+        static void debug(const std::vector<Token>& tokens);
         std::vector<Token> tokenize();
         std::vector<Token> get_tokens() {return this->m_tokens; };
 
