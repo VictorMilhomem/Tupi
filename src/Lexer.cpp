@@ -140,91 +140,91 @@ void Lexer::Lexer::m_debug_print_tokens(const Token& token) {
     const std::string text = token.text;
     switch (token.kind) {
         case TokenKind::TEOF:
-            std::cout << "(Token: EOF, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: EOF, Content: '" << text << "')"<< std::endl;
             break;
         case TokenKind::IDENTIFIER:
-            std::cout << "(Token: ID, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: ID, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::INTEGER:
-            std::cout << "(Token: INTEGER, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: INTEGER, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::FLOAT:
-            std::cout << "(Token: FLOAT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: FLOAT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::LPAREN:
-            std::cout << "(Token: LPAREN, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: LPAREN, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::RPAREN:
-            std::cout << "(Token: RPAREN, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: RPAREN, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::LBRACE:
-            std::cout << "(Token: LBRACE, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: LBRACE, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::RBRACE:
-            std::cout << "(Token: RBRACE, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: RBRACE, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::LBRACKET:
-            std::cout << "(Token: LBRACKET, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: LBRACKET, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::RBRACKET:
-            std::cout << "(Token: RBRACKET, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: RBRACKET, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::SEMICOLON:
-            std::cout << "(Token: SEMICOLON, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: SEMICOLON, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::COMMA:
-            std::cout << "(Token: COMMA, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: COMMA, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::COLON:
-            std::cout << "(Token: COLON, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: COLON, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::ASSIGN:
-            std::cout << "(Token: ASSIGN, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: ASSIGN, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::EQUAL:
-            std::cout << "(Token: EQUAL, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: EQUAL, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::GT:
-            std::cout << "(Token: GT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: GT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::GTEQUAL:
-            std::cout << "(Token: GTEQUAL, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: GTEQUAL, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::LT:
-            std::cout << "(Token: LT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: LT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::LTEQUAL:
-            std::cout << "(Token: LTEQUAL, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: LTEQUAL, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::MINUS:
-            std::cout << "(Token: MINUS, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: MINUS, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::PLUS:
-            std::cout << "(Token: PLUS, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: PLUS, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::DIV:
-            std::cout << "(Token: DIV, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: DIV, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::MULT:
-            std::cout << "(Token: MULT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: MULT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::INCREMENT:
-            std::cout << "(Token: INCREMENT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: INCREMENT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::DECREMENT:
-            std::cout << "(Token: DECREMENT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: DECREMENT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::BITWISE:
-            std::cout << "(Token: BITWISE, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: BITWISE, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::NOT:
-            std::cout << "(Token: NOT, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: NOT, Content: '" << text << "')"<< std::endl;
         break;
         case TokenKind::STRING:
-            std::cout << "(Token: STRING, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: STRING, Content: '" << text << "')"<< std::endl;
         break;
         default:
-            std::cout << "(Token: KEYWORD, Content: '" << text << "'"<< std::endl;
+            std::cout << "(Token: KEYWORD, Content: '" << text << "')"<< std::endl;
             break;
     }
 }
