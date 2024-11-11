@@ -1,5 +1,6 @@
 #include <iostream>
 #include "src/Lexer.h"
+#include "src/Ast.h"
 
 int main() {
     std::string input = "fn main(void) : int {  echo(\"Hello World!\") return 0; }";
@@ -7,4 +8,6 @@ int main() {
     auto tokens = lexer.tokenize();
 
     Lexer::Lexer::debug(tokens);
+
+    Ast::test();
 }
