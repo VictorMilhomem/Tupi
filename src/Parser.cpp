@@ -19,11 +19,11 @@ std::unique_ptr<Ast::Constant> Parser::Parser::parseConstant() {
 
 
 std::unique_ptr<Ast::Unary> Parser::Parser::parseUnary() {
-    auto token_op = getPreviousToken();
+    auto token_op = getCurrentToken();
     auto token = getCurrentToken();
+    match(token, token_op.kind);
+
     std::string op = token_op.text;
-    // for now we are parsing only int expr
-    match(token, Lexer::TokenKind::INTEGER);
     std::unique_ptr<Ast::Expression> expr = parseExpression();
     return std::make_unique<Ast::Unary>(op, std::move(expr));
 
