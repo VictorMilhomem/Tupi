@@ -13,7 +13,8 @@ std::unique_ptr<Ast::Constant> Parser::Parser::parseConstant() {
     auto token = getCurrentToken();
     std::string value_str = token.text;
     int value = std::stoi(value_str);
-    return std::make_unique<Ast::Constant>(value);
+
+    return std::move(std::make_unique<Ast::Constant>(value));
 }
 
 
@@ -22,32 +23,31 @@ std::unique_ptr<Ast::Unary> Parser::Parser::parseUnary() {
     auto token = getCurrentToken();
     std::string op = token_op.text;
     // for now we are parsing only int expr
-    match(token.kind, Lexer::TokenKind::INTEGER);
+    match(token, Lexer::TokenKind::INTEGER);
     std::unique_ptr<Ast::Expression> expr = parseExpression();
-    return std::make_unique<Ast::Unary>(op, expr);
+    return std::make_unique<Ast::Unary>(op, std::move(expr));
 
 }
 
 
 std::unique_ptr<Ast::Expression> Parser::Parser::parseExpression() {
     auto token = getCurrentToken();
+
     if (token.kind == Lexer::TokenKind::INTEGER) {
-        match(token.kind, Lexer::TokenKind::INTEGER);
         auto integer = parseConstant();
-        return std::make_unique<Ast::Expression>(integer);
+        return std::make_unique<Ast::Expression>(std::move(integer));
     }
     if (token.kind == Lexer::TokenKind::BITWISE ||
         token.kind == Lexer::TokenKind::NOT ||
         token.kind == Lexer::TokenKind::MINUS) {
-        pos++;
         auto unary = parseUnary();
-        return std::make_unique<Ast::Expression>(unary);
+        return std::make_unique<Ast::Expression>(std::move(unary));
     }
 
     if (token.kind == Lexer::TokenKind::LPAREN) {
-        pos++;
         auto expr = parseExpression();
-        match(token.kind, Lexer::TokenKind::RPAREN);
+        match(token, Lexer::TokenKind::RPAREN);
+        return std::move(expr);
     }
     throw std::runtime_error("Malformed expression");
 
@@ -55,28 +55,38 @@ std::unique_ptr<Ast::Expression> Parser::Parser::parseExpression() {
 
 std::unique_ptr<Ast::Statement> Parser::Parser::parseStatement() {
     auto token = getCurrentToken();
-    match(token.kind, Lexer::TokenKind::RETURN);
-    auto expr = parseExpression();
-    match(token.kind, Lexer::TokenKind::SEMICOLON);
+    std::unique_ptr<Ast::Expression> expr;
+    match(token, Lexer::TokenKind::RETURN);
+    expr = parseExpression();
+    token = getNextToken();
+    token = getNextToken();
+
+    match(token, Lexer::TokenKind::SEMICOLON);
     return std::make_unique<Ast::ReturnStmt>(std::move(expr));
 }
 
 
 std::unique_ptr<Ast::Function> Parser::Parser::parseFunction() {
-    auto token = getNextToken();
-    match(token.kind, Lexer::TokenKind::FN);
-    match(token.kind, Lexer::TokenKind::IDENTIFIER);
+    auto token = getCurrentToken();
     std::string name = token.text;
-    match(token.kind, Lexer::TokenKind::LPAREN);
+    match(token, Lexer::TokenKind::IDENTIFIER);
+    token = getCurrentToken();
+    match(token, Lexer::TokenKind::LPAREN);
+    token = getCurrentToken();
     // after match the arguments
-    match(token.kind, Lexer::TokenKind::RPAREN);
-    match(token.kind, Lexer::TokenKind::COLON);
-    match(token.kind, Lexer::TokenKind::TYPE);
-    match(token.kind, Lexer::TokenKind::LBRACE);
-    // parse the function body
+    match(token, Lexer::TokenKind::RPAREN);
+    token = getCurrentToken();
+    match(token, Lexer::TokenKind::COLON);
+    token = getCurrentToken();
+    match(token, Lexer::TokenKind::TYPE);
+    token = getCurrentToken();
+    match(token, Lexer::TokenKind::LBRACE);
     auto body = parseStatement();
-    match(token.kind, Lexer::TokenKind::RBRACE);
-    return std::make_unique<Ast::Function>(name, body);
+    token = getPreviousToken();
+
+    match(token, Lexer::TokenKind::RBRACE);
+
+    return std::make_unique<Ast::Function>(name, std::move(body));
 }
 
 

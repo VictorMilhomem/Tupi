@@ -130,6 +130,7 @@ std::vector<Lexer::Token> Lexer::Lexer::tokenize() {
                 continue;
         }
     }
+    tokens.push_back({TokenKind::TEOF, "EOF"});
 
     if (this->m_had_error) m_raise_error(error);
 

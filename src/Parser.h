@@ -18,10 +18,22 @@ namespace Parser {
         std::unique_ptr<Ast::Unary> parseUnary();
         std::unique_ptr<Ast::Constant> parseConstant();
 
-        void match(Lexer::TokenKind token_kind, Lexer::TokenKind expected) {
-            if (token_kind != expected) throw std::runtime_error("Syntax Error: Unexpected token");
-            pos++;
-        };
+        Lexer::Token match(Lexer::Token& token, Lexer::TokenKind expected) {
+            //printf("Token: %s\n", token.text.c_str());
+
+            if (token.kind != expected) {
+                throw std::runtime_error("Syntax Error: Unexpected token " +
+                    std::to_string(static_cast<int>(token.kind)) +
+                    " (Expected: " + std::to_string(static_cast<int>(expected)) + ") " +
+                    "at position: " + std::to_string(pos));
+            }
+            // Fetch and return the next token
+            if (token.kind != Lexer::TokenKind::TEOF) {
+                token = getNextToken();
+            }
+            return token;
+        }
+
 
         Lexer::Token getCurrentToken() {
             return tokens[pos];
@@ -39,7 +51,12 @@ namespace Parser {
         explicit Parser(const std::vector<Lexer::Token>& tokens) : tokens(tokens), pos(0) {}
 
         std::unique_ptr<Ast::Program> parseProgram() {
-            return std::make_unique<Ast::Program>(parseFunction());
+            auto token = getCurrentToken();
+            match(token, Lexer::TokenKind::FN);
+            auto fn = parseFunction();
+            token = getPreviousToken();
+            match(token, Lexer::TokenKind::TEOF);
+            return std::make_unique<Ast::Program>(std::move(fn));
         }
     };
 }
