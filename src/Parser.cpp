@@ -35,6 +35,7 @@ std::unique_ptr<Ast::Expression> Parser::Parser::parseExpression() {
 
     if (token.kind == Lexer::TokenKind::INTEGER) {
         auto integer = parseConstant();
+        match(token, Lexer::TokenKind::INTEGER);
         return std::make_unique<Ast::Expression>(std::move(integer));
     }
     if (token.kind == Lexer::TokenKind::BITWISE ||
@@ -58,8 +59,7 @@ std::unique_ptr<Ast::Statement> Parser::Parser::parseStatement() {
     std::unique_ptr<Ast::Expression> expr;
     match(token, Lexer::TokenKind::RETURN);
     expr = parseExpression();
-    token = getNextToken();
-    token = getNextToken();
+    token = getCurrentToken();
 
     match(token, Lexer::TokenKind::SEMICOLON);
     return std::make_unique<Ast::ReturnStmt>(std::move(expr));
@@ -82,7 +82,7 @@ std::unique_ptr<Ast::Function> Parser::Parser::parseFunction() {
     token = getCurrentToken();
     match(token, Lexer::TokenKind::LBRACE);
     auto body = parseStatement();
-    token = getPreviousToken();
+    token = getCurrentToken();
 
     match(token, Lexer::TokenKind::RBRACE);
 

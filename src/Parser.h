@@ -19,7 +19,7 @@ namespace Parser {
         std::unique_ptr<Ast::Constant> parseConstant();
 
         Lexer::Token match(Lexer::Token& token, Lexer::TokenKind expected) {
-            //printf("Token: %s\n", token.text.c_str());
+            printf("Token: %s\n", token.text.c_str());
 
             if (token.kind != expected) {
                 throw std::runtime_error("Syntax Error: Unexpected token " +
@@ -54,7 +54,7 @@ namespace Parser {
             auto token = getCurrentToken();
             match(token, Lexer::TokenKind::FN);
             auto fn = parseFunction();
-            token = getPreviousToken();
+            token = getCurrentToken();
             match(token, Lexer::TokenKind::TEOF);
             return std::make_unique<Ast::Program>(std::move(fn));
         }
