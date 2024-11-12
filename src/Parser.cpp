@@ -31,6 +31,11 @@ std::unique_ptr<Ast::Unary> Parser::Parser::parseUnary() {
 
 std::unique_ptr<Ast::Expression> Parser::Parser::parseExpression() {
     auto token = getCurrentToken();
+    if (token.kind == Lexer::TokenKind::INTEGER) {
+        match(token.kind, Lexer::TokenKind::INTEGER);
+        auto integer = parseConstant();
+        return std::make_unique<Ast::Expression>(integer);
+    }
     if (token.kind == Lexer::TokenKind::BITWISE ||
         token.kind == Lexer::TokenKind::NOT ||
         token.kind == Lexer::TokenKind::MINUS) {
@@ -38,9 +43,14 @@ std::unique_ptr<Ast::Expression> Parser::Parser::parseExpression() {
         auto unary = parseUnary();
         return std::make_unique<Ast::Expression>(unary);
     }
-    match(token.kind, Lexer::TokenKind::INTEGER);
-    auto integer = parseConstant();
-    return std::make_unique<Ast::Expression>(integer);
+
+    if (token.kind == Lexer::TokenKind::LPAREN) {
+        pos++;
+        auto expr = parseExpression();
+        match(token.kind, Lexer::TokenKind::RPAREN);
+    }
+    throw std::runtime_error("Malformed expression");
+
 }
 
 std::unique_ptr<Ast::Statement> Parser::Parser::parseStatement() {
