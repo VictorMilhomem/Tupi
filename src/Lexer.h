@@ -73,6 +73,8 @@ namespace Lexer {
         std::string error_message;
     };
 
+    std::string print_token(TokenKind kind);
+
     class Lexer {
     private:
         std::string m_source;
@@ -103,6 +105,16 @@ namespace Lexer {
         };
 
         static void m_debug_print_tokens(const Token& token);
+
+        std::string m_getKeyFromValue(TokenKind kind) {
+            for (const auto& [key, value] : m_keywords) {
+                if (value == kind) {
+                    return key;  // Return the matching key
+                }
+            }
+            return "";  // Return empty string if no match is found
+        }
+
 
         static void m_raise_error(const LexerError& error) {
             std::cerr << error.error_message << error.c <<" at Line:" <<

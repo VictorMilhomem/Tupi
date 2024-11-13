@@ -22,10 +22,9 @@ namespace Parser {
             printf("Token: %s\n", token.text.c_str());
 
             if (token.kind != expected) {
-                throw std::runtime_error("Syntax Error: Unexpected token " +
-                    std::to_string(static_cast<int>(token.kind)) +
-                    " (Expected: " + std::to_string(static_cast<int>(expected)) + ") " +
-                    "at position: " + std::to_string(pos));
+                throw std::runtime_error("Syntax Error: Unexpected token '" +
+                    token.text + "' at position: " + std::to_string(pos) +
+                    " (Expected: '" + Lexer::print_token(expected)+ "') ");
             }
             // Fetch and return the next token
             if (token.kind != Lexer::TokenKind::TEOF) {

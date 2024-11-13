@@ -1,5 +1,7 @@
 #include "Lexer.h"
 
+#include <format>
+
 
 std::vector<Lexer::Token> Lexer::Lexer::tokenize() {
     std::vector<Token> tokens;
@@ -233,5 +235,98 @@ void Lexer::Lexer::m_debug_print_tokens(const Token& token) {
 void Lexer::Lexer::debug(const std::vector<Token>& tokens) {
     for (auto& token : tokens) {
         m_debug_print_tokens(token);
+    }
+}
+
+std::string Lexer::print_token(TokenKind kind) {
+
+    switch (kind) {
+        case TokenKind::TEOF:
+            return "EOF";
+
+        case TokenKind::IDENTIFIER:
+            return "IDENTIFIER";
+
+        case TokenKind::INTEGER:
+            return "INTEGER";
+
+        case TokenKind::FLOAT:
+            return "FLOAT";
+
+        case TokenKind::LPAREN:
+            return "(";
+
+        case TokenKind::RPAREN:
+            return ")";
+
+        case TokenKind::LBRACE:
+            return "{";
+
+        case TokenKind::RBRACE:
+            return "}";
+
+        case TokenKind::LBRACKET:
+            return "[";
+
+        case TokenKind::RBRACKET:
+            return "]";
+
+        case TokenKind::SEMICOLON:
+            return ";";
+
+        case TokenKind::COMMA:
+            return ",";
+
+        case TokenKind::COLON:
+            return ":";
+
+        case TokenKind::ASSIGN:
+            return "=";
+
+        case TokenKind::EQUAL:
+            return "==";
+
+        case TokenKind::GT:
+            return ">";
+
+        case TokenKind::GTEQUAL:
+            return ">=";
+
+        case TokenKind::LT:
+            return "<";
+
+        case TokenKind::LTEQUAL:
+            return "<=";
+
+        case TokenKind::MINUS:
+            return "-";
+
+        case TokenKind::PLUS:
+            return "+";
+
+        case TokenKind::DIV:
+            return "/";
+
+        case TokenKind::MULT:
+            return "*";
+
+        case TokenKind::INCREMENT:
+            return "++";
+
+        case TokenKind::DECREMENT:
+            return "--";
+
+        case TokenKind::BITWISE:
+            return "~";
+
+        case TokenKind::NOT:
+            return "!";
+
+        case TokenKind::STRING:
+            return "STRING";
+
+        default:
+            return "KEYWORD";
+
     }
 }
