@@ -50,6 +50,7 @@ namespace Assembly {
 
     struct Instruction {
         std::variant<std::unique_ptr<Return>, std::unique_ptr<Unary>> type;
+
         explicit Instruction(std::unique_ptr<Return> type) : type(std::move(type)) {}
         explicit Instruction(std::unique_ptr<Unary> type) : type(std::move(type)) {}
     };
@@ -68,6 +69,7 @@ namespace Assembly {
     struct Program {
         std::unique_ptr<FunctionDefinition>function_def;
         explicit Program(std::unique_ptr<FunctionDefinition> function_def) : function_def(std::move(function_def)) {}
+        Program() : function_def(nullptr) {}
     };
 
 

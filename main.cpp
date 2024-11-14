@@ -16,12 +16,14 @@ int main() {
     std::cout << "============ Parsing Tree ============" << std::endl;
     printer->printProgram(*ast);
 
-    auto codegen = std::make_unique<CodeGen>(std::move(ast));  // Move ownership
-    auto assembly = codegen->convert_program();
+
     std::cout << "============ Assembly Tree ============" << std::endl;
     // Print the generated assembly
-    print_program(*assembly, 0);
-    std::cout << "============ Code Generated ============" << std::endl;
-    codegen->program_generator();
 
+    std::cout << "============ Code Generated ============" << std::endl;
+    auto program = std::make_unique<Assembly::Program>();
+
+
+
+    return 0;
 }
