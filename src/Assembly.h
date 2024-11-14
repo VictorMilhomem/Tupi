@@ -70,19 +70,6 @@ namespace Assembly {
         explicit Program(std::unique_ptr<FunctionDefinition> function_def) : function_def(std::move(function_def)) {}
     };
 
-    class Assembly {
-    private:
-        Ast::Program program;
-        std::unique_ptr<Program> emit_function(const Ast::Function& function);
-        std::unique_ptr<Program> emit_return(const Ast::ReturnStmt& ret);
-        std::unique_ptr<Program> emit_unary(const Ast::Unary& unary);
-        std::unique_ptr<Program> emit_val(const Ast::Expression& expr);
-    public:
-        explicit Assembly(Ast::Program program) : program(std::move(program)) {}
-
-        std::unique_ptr<Program> emit_ir(Ast::Program program);
-    };
-
 
 }
 

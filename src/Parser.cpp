@@ -1,11 +1,13 @@
 #include "Parser.h"
 
 /*
- * SIMPLE GRAMMAR
+ * TODO: Binary Expr
 <program> ::= <function>
 <function> ::= "fn" <id> "(" ")" ":" Type "{" <statement> "}"
 <statement> ::= "return" <exp> ";"
-<exp> ::= <unary_op> <exp> | <int>
+<exp> ::= <exp> ("+" | "-") <exp> | <term>
+<term> ::= <term> ("*" | "/") <term> | <factor>
+<factor> ::= "(" <exp> ")" | <unary_op> <factor> | <int>
 <unary_op> ::= "!" | "~" | "-"
  */
 
